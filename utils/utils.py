@@ -108,8 +108,16 @@ def read_dataset(root_dir, archive_name, dataset_name):
         file_name = cur_root_dir + '/archives/' + archive_name + '/' + dataset_name + '/' + dataset_name
         # x_train, y_train = readucr(file_name + '_TRAIN')
         x_train, y_train = readucr(file_name + '_TRAIN.txt')
+        x_train = x_train.astype(np.float)
+        y_train = y_train.astype(np.float)
+        
         #x_test, y_test = readucr(file_name + '_TEST')
         x_test, y_test = readucr(file_name + '_TEST.txt')        
+        x_test = x_test.astype(np.float)
+        y_test = y_test.astype(np.float)        
+        
+        print('x_test', x_test)
+        print('y_test', y_test)
         datasets_dict[dataset_name] = (x_train.copy(), y_train.copy(), x_test.copy(),
                                        y_test.copy())
     return datasets_dict
