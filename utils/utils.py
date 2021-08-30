@@ -30,9 +30,13 @@ from scipy.io import loadmat
 
 
 def readucr(filename):
-    data = np.loadtxt(filename, delimiter=',')
-    Y = data[:, 0]
-    X = data[:, 1:]
+    # data format is slightly different from expected, as it's delimited with two spaces, and label is in entry two
+    #data = np.loadtxt(filename, delimiter=',')
+    data = np.loadtxt(filename, delimiter="  ", dtype=str)
+    #Y = data[:, 0]
+    Y = data[:, 1]
+    #X = data[:, 1:]
+    X = data[:, 2:]
     return X, Y
 
 
@@ -102,11 +106,12 @@ def read_dataset(root_dir, archive_name, dataset_name):
                                        y_test.copy())
     else:
         file_name = cur_root_dir + '/archives/' + archive_name + '/' + dataset_name + '/' + dataset_name
-        x_train, y_train = readucr(file_name + '_TRAIN')
-        x_test, y_test = readucr(file_name + '_TEST')
+        # x_train, y_train = readucr(file_name + '_TRAIN')
+        x_train, y_train = readucr(file_name + '_TRAIN.txt')
+        #x_test, y_test = readucr(file_name + '_TEST')
+        x_test, y_test = readucr(file_name + '_TEST.txt')        
         datasets_dict[dataset_name] = (x_train.copy(), y_train.copy(), x_test.copy(),
                                        y_test.copy())
-
     return datasets_dict
 
 

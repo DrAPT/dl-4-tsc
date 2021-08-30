@@ -23,14 +23,15 @@ def fit_classifier():
     y_test = datasets_dict[dataset_name][3]
 
     nb_classes = len(np.unique(np.concatenate((y_train, y_test), axis=0)))
-
+    print('nb_classes:', nb_classes)
+    
     # transform the labels from integers to one hot vectors
     enc = sklearn.preprocessing.OneHotEncoder(categories='auto')
     enc.fit(np.concatenate((y_train, y_test), axis=0).reshape(-1, 1))
     y_train = enc.transform(y_train.reshape(-1, 1)).toarray()
     y_test = enc.transform(y_test.reshape(-1, 1)).toarray()
 
-    # save orignal y because later we will use binary
+    # save original y because later we will use binary
     y_true = np.argmax(y_test, axis=1)
 
     if len(x_train.shape) == 2:  # if univariate
@@ -80,7 +81,8 @@ def create_classifier(classifier_name, input_shape, nb_classes, output_directory
 ############################################### main
 
 # change this directory for your machine
-root_dir = '/b/home/uha/hfawaz-datas/dl-tsc-temp/'
+#root_dir = '/b/home/uha/hfawaz-datas/dl-tsc-temp/'
+root_dir = '/sfs/qumulo/qhome/apt4c/ds5110/dl-4-tsc/'
 
 if sys.argv[1] == 'run_all':
     for classifier_name in CLASSIFIERS:
@@ -147,8 +149,11 @@ else:
     else:
 
         create_directory(output_directory)
+        print('OUTPUT DIRECTORY:', output_directory)
+        
         datasets_dict = read_dataset(root_dir, archive_name, dataset_name)
-
+        print('DATASET READ COMPLETED')
+        
         fit_classifier()
 
         print('DONE')
